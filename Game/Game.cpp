@@ -78,8 +78,9 @@ void Game::start(){
         }
     }
 
-    std::cout << players[leptet(i, -dir)] << ", gratulalok nyertel!" << std::endl;
-    getchar();
+    std::system("cls");
+    std::cout << *players[leptet(i, -dir)] << ", gratulalok nyertel!" << std::endl;
+    getch();
 }
 
 void Game::printPlayers(int index, int dir) const {
