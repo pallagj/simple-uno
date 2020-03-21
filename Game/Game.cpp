@@ -22,21 +22,20 @@ void Game::addPlayers(std::initializer_list<Player*> players){
     this->players.insert(this->players.end(), players.begin(), players.end());
 }
 
-
-
 void Game::start(){
     std::system("cls");
     std::cout << "UNO Jatek, sok sikert!\n" << std::endl;
     int dir = +1;
+    
+    //Legfelso kartya levetele kezdeshez
+    active_card = cards.back();
+    cards.pop_back();
 
     std::random_shuffle(cards.begin(), cards.end());
 
     for(Player* player : players){
         player->drawCards(7);
     }
-
-
-    active_card = new NumberCard(Color(rand()%4), rand()%4);
 
     for(int i=0; players[i]->hasCard(); i = (i+dir+players.size())%players.size() ){
         //Consol
@@ -91,13 +90,23 @@ void Game::printPlayers(int index, int dir) const {
 std::vector<Card*> Game::UNO(){
     std::vector<Card*> cards;
 
+    //Specialis kartyak
     for(Color c=RED; c<UNDEFINIT; c=Color(c+1)) {
         for(int i=0; i<2; i++){
             cards.push_back(new SkipCard(c));
             cards.push_back(new ReverseCard(c));
             cards.push_back(new DrawCard<+2>(c));
         }
+    }
 
+    //Specialis szinvalaszto kartyak
+    for(int i=0; i<4; i++) {
+        cards.push_back(new WildCard());
+        cards.push_back(new WildDrawCard());
+    }
+
+    //Szamkartyak
+    for(Color c=RED; c<UNDEFINIT; c=Color(c+1)) {
         for(int n=0; n<10; n++)
             cards.push_back(new NumberCard(c, n));
 
@@ -106,10 +115,8 @@ std::vector<Card*> Game::UNO(){
 
     }
 
-    for(int i=0; i<4; i++) {
-        cards.push_back(new WildCard());
-        cards.push_back(new WildDrawCard());
-    }
+    //Szamkartyak megkeverese a kezdeshez
+    std::random_shuffle(cards.end()-4*19, cards.end());
 
     return cards;
 }
@@ -124,5 +131,3 @@ Game::~Game(){
     for(Player* player : players)
         delete player;
 }
-
-
