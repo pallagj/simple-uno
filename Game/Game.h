@@ -18,6 +18,7 @@ class Game{
     Card* active_card;
 
     void printPlayers(int i, int dir) const;
+    int leptet(int index, int dir) const;
 public:
     Game(std::vector<Card*> cards);
 
