@@ -22,12 +22,15 @@ void Game::addPlayers(std::initializer_list<Player*> players){
     this->players.insert(this->players.end(), players.begin(), players.end());
 }
 
+int Game::leptet(int index, int dir) const{
+    return (index + dir + players.size()) % players.size();
+}
+
 void Game::start(){
     std::system("cls");
     std::cout << "UNO Jatek, sok sikert!\n" << std::endl;
     int dir = +1;
-    
-    //Legfelso kartya levetele kezdeshez
+
     active_card = cards.back();
     cards.pop_back();
 
@@ -37,7 +40,8 @@ void Game::start(){
         player->drawCards(7);
     }
 
-    for(int i=0; players[i]->hasCard(); i = (i+dir+players.size())%players.size() ){
+    int i;
+    for(i=0; players[leptet(i, -dir)]->hasCard(); i = leptet(i, dir)){
         //Consol
         std::cout << "\nOK?" << std::endl;
         getch();
@@ -73,6 +77,9 @@ void Game::start(){
             i -= dir;
         }
     }
+
+    std::cout << players[leptet(i, -dir)] << ", gratulalok nyertel!" << std::endl;
+    getchar();
 }
 
 void Game::printPlayers(int index, int dir) const {
