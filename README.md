@@ -1,3 +1,3 @@
 # UNO
 
-Az egyszerű UNO játékot valósítottam meg C++-ban objektum orientáltan.
+I implemented the simple *UNO* game in C ++ in an object oriented way. The game is a console app for any player.
